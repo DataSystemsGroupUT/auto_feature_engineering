@@ -1,0 +1,10 @@
+Instances > 10000
+Features > 10000
+Timecolumn = True
+Single Value = True
+Highly correlated features = Linear Transformations
+Class imbalance = Both
+Null Values > 1/3
+Different ranges = True
+Numeric Categorical = True
+Bias Problem = Maybe
