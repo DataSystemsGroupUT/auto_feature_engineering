@@ -43,6 +43,9 @@ def run_as(X, y, target_ft, time_budget=30, include_preprocessors = None):
     metrs = []
     metrs.append("Accuracy score - " + str(sklearn.metrics.accuracy_score(y_test, y_hat)))
     metrs.append("F1 score - " + str(sklearn.metrics.f1_score(y_test, y_hat, average='macro')))
+    
+    print(automl.show_models())
+    
     return str(metrs)
 
 def run_tpot(X,y, target_ft,time_budget=30, include_preprocessors=None ):
@@ -107,7 +110,7 @@ def run_test(df,target_ft, mode = 0, time_budget=30):
 #df = pd.read_csv("data/gina.csv")
 df = pd.read_csv("data/ailerons_fx.csv")
 target_ft = "binaryClass"
-run_test(df, target_ft, mode=1 ,time_budget=1800)
+run_test(df, target_ft, mode=2 ,time_budget=30)
 
 
 # In[ ]:
