@@ -1,0 +1,4 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,ailerons_fx,0.5m,Autofeat,AutoSK,0.8747303072951294,0.8772542175683536,"(13750, 14)"
+1,ailerons_fx,0.55m,AutoSK,AutoSK,0.880790352187959,0.8833624200116347,"(13750, 40)"
+2,ailerons_fx,0.55m,None,AutoSK,0.8669504989531607,0.8699825479930192,"(13750, 40)"

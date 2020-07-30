@@ -43,9 +43,6 @@ def run_as(X, y, target_ft, time_budget=30, include_preprocessors = None):
     metrs = []
     metrs.append("Accuracy score - " + str(sklearn.metrics.accuracy_score(y_test, y_hat)))
     metrs.append("F1 score - " + str(sklearn.metrics.f1_score(y_test, y_hat, average='macro')))
-    
-    print(automl.show_models())
-    
     return str(metrs)
 
 def run_tpot(X,y, target_ft,time_budget=30, include_preprocessors=None ):
@@ -87,10 +84,10 @@ def run_test(df,target_ft, mode = 0, time_budget=30):
     if mode == 0 or mode == 3:
         rs = run_as(X,y,target_ft,time_budget=time_budget, include_preprocessors =["no_preprocessing"])
         results.append("Autosk Only without Preprocessing: " + rs)
-   # if mode == 0 or mode == 4:
-   #     X_new = gen_feats_featools(X)
-   #     rs = run_as(X_new,y,target_ft,time_budget=time_budget, include_preprocessors =["no_preprocessing"])
-   #     results.append("Autosk with Featuretools: " + rs)
+    #if mode == 0 or mode == 4:
+    #    X_new = gen_feats_featools(X)
+    #    rs = run_as(X_new,y,target_ft,time_budget=time_budget, include_preprocessors =["no_preprocessing"])
+    #    results.append("Autosk with Featuretools: " + rs)
     if mode == 0 or mode == 5:
         X_new = gen_feats_autofeat(X,y)
         rs = run_as(X_new,y,target_ft,time_budget=time_budget, include_preprocessors =["no_preprocessing"])
@@ -102,15 +99,78 @@ def run_test(df,target_ft, mode = 0, time_budget=30):
     [print(x) for x in results]
 
 
+# In[3]:
+
+
+get_ipython().system('rm -r tmp')
+df = pd.read_csv("blood.csv")
+target_ft = "class"
+run_test(df, target_ft, mode=2, time_budget=60)
+
+
+# In[29]:
+
+
+df = pd.read_csv("winequality-red.csv")
+target_ft = "quality"
+run_test(df, target_ft, mode=2 ,time_budget=30)
+
+
+# In[103]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[17]:
+
+
+df = pd.read_csv("data/airlines.csv")
+
+
+# In[18]:
+
+
+df.columns
+
+
+# In[19]:
+
+
+df
+
+
+# In[ ]:
+
+
+get_ipython().system('rm -r tmp')
+df = pd.read_csv("data/airlines.csv").drop(columns=["Airline","AirportFrom","AirportTo"])
+target_ft = "Delay"
+run_test(df, target_ft, mode=2 ,time_budget=30)
+
+
+# In[ ]:
+
+
+get_ipython().system('rm -r tmp')
+df = pd.read_csv("data/gina.csv")
+target_ft = "class"
+run_test(df, target_ft, mode=2 ,time_budget=30)
+
 
 # In[3]:
 
 
-#get_ipython().system('rm -r tmp')
-#df = pd.read_csv("data/gina.csv")
-df = pd.read_csv("data/ailerons_fx.csv")
-target_ft = "binaryClass"
-run_test(df, target_ft, mode=2 ,time_budget=30)
+get_ipython().system('rm -r tmp')
+df = pd.read_csv("data/gina.csv")
+target_ft = "class"
+run_test(df, target_ft, mode=5 ,time_budget=30)
 
 
 # In[ ]:
