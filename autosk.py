@@ -221,14 +221,23 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30):
 # In[ ]:
 
 
-#df_path = "data/nomao.csv"
-#target_ft = "Class"
-#res = run_test(df_path, target_ft, mode=1 ,time_budget=3600)
+df_path = "data/nomao.csv"
+target_ft = "Class"
+res = run_test(df_path, target_ft, mode=1 ,time_budget=3600)
 
 
-df_path = "data/ailerons_fx.csv"
-target_ft = "binaryClass"
-res = run_test(df_path, target_ft, mode=0 ,time_budget=30)
+f_path = "data/nomao.csv"
+target_ft = "Class"
+res = run_test(df_path, target_ft, mode=2 ,time_budget=3600)
+
+df_path = "data/nomao.csv"
+target_ft = "Class"
+res = run_test(df_path, target_ft, mode=3 ,time_budget=3600)
+
+
+
+
+
 
 
 

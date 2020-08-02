@@ -1,0 +1,2 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,eeg-eye-state,60.0m,None,AutoSK,0.9547944915366029,0.9554072096128171,"(14980, 14)"

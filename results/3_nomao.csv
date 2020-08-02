@@ -1,0 +1,2 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,nomao,60.0m,None,AutoSK,0.9629014319950531,0.9700591853313218,"(34465, 118)"
