@@ -16,15 +16,16 @@ import autofeat
 from tpot import TPOTClassifier
 import json 
 import time
+from sklearn import preprocessing 
 
 
 warnings.filterwarnings('ignore')
 
 
-# In[2]:
+# In[41]:
 
 
-def run_as(X, y, target_ft, time_budget=30, include_preprocessors = None):
+def run_as(X, y, target_ft, time_budget=30, include_preprocessors = None, n_jobs=-1):
     try:
         os.remove('/tmp/autosklearn_regression_example_tmp')
         os.remove('/tmp/autosklearn_regression_example_out')
@@ -35,16 +36,20 @@ def run_as(X, y, target_ft, time_budget=30, include_preprocessors = None):
     X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, random_state=1)
     automl = autosklearn.classification.AutoSklearnClassifier(
         time_left_for_this_task=time_budget,
-        per_run_time_limit=30,
+        per_run_time_limit=time_budget//10,
         tmp_folder='./tmp/autosklearn_regression_example_tmp',
         output_folder='./tmp/autosklearn_regression_example_out',
-        include_preprocessors = include_preprocessors
+        include_preprocessors=include_preprocessors,
+        ml_memory_limit=None,
+        ensemble_memory_limit=3000,
+        metric=autosklearn.metrics.f1_weighted,
+        n_jobs=n_jobs
     )
     automl.fit(X_train, y_train)
     y_hat = automl.predict(X_test)
     
     acc = sklearn.metrics.accuracy_score(y_test, y_hat)
-    f1_s = sklearn.metrics.f1_score(y_test, y_hat, average='macro')
+    f1_s = sklearn.metrics.f1_score(y_test, y_hat, average='weighted')
     metrs = []
     metrs.append("Accuracy score - " + str(acc))
     metrs.append("F1 score - " + str(f1_s))
@@ -80,9 +85,12 @@ def gen_feats_autofeat(X,y):
     return X
     
     
-def run_test(df_path,target_ft, mode = 0, time_budget=30):
+def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1):
     results = []
     df = pd.read_csv(df_path)
+    object_columns = df.select_dtypes(include='object')
+    if len(object_columns.columns):
+        df[object_columns.columns] = object_columns.apply(preprocessing.LabelEncoder().fit_transform)
     X = df.drop(columns=target_ft)
     y = df[target_ft]
     res_df = []
@@ -94,7 +102,7 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30):
         end = time.monotonic()
         autofeat_time = int(end-start)
         print("Autofeat_time: ",autofeat_time)
-        rs = run_as(X_new,y,target_ft,time_budget=time_budget, include_preprocessors =["no_preprocessing"])
+        rs = run_as(X_new,y,target_ft,time_budget=time_budget, include_preprocessors =["no_preprocessing"],n_jobs=n_jobs)
         results.append("Autosk Only with Preprocessing: " + rs[0])
         rs[1][0] = df_path[5:-4]
         rs[1][1] = str(time_budget/60)+'m'
@@ -105,7 +113,7 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30):
     
 
     if mode == 0 or mode == 2:
-        rs = run_as(X,y,target_ft, time_budget=time_budget+autofeat_time, include_preprocessors=None)   
+        rs = run_as(X,y,target_ft, time_budget=time_budget+autofeat_time, include_preprocessors=None,n_jobs=n_jobs)   
         results.append("Autosk Only with Preprocessing: " + rs[0])
         rs[1][0] = df_path[5:-4]
         rs[1][1] = str(round((time_budget+autofeat_time)/60,2))+'m'
@@ -114,7 +122,7 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30):
         rs[1][6] = str(X.shape)
         res_df.append(rs[1])
     if mode == 0 or mode == 3:
-        rs = run_as(X,y,target_ft,time_budget=time_budget, include_preprocessors =["no_preprocessing"])
+        rs = run_as(X,y,target_ft,time_budget=time_budget, include_preprocessors =["no_preprocessing"],n_jobs=n_jobs)
         results.append("Autosk Only without Preprocessing: " + rs[0])
         rs[1][0] = df_path[5:-4]
         rs[1][1] = str(round((time_budget+autofeat_time)/60,2))+'m'
@@ -142,27 +150,22 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30):
     [print(x) for x in results]
     
     res_df =  pd.DataFrame(res_df, columns = ["Dataset","Time","Preprocessing","AutoML","Accuracy","F1","Shape","PipeLine"])
-    res_df.drop(columns=["PipeLine"]).to_csv("results/"+str(mode)+"_"+df_path[5:])
-    res_df.to_csv("results/"+str(mode)+"_pipe_"+df_path[5:])
+    res_df.drop(columns=["PipeLine"]).to_csv("results/"+df_path[5:])
+    res_df.to_csv("results/pipe_"+df_path[5:])
     
     return res_df
 
 
-# In[3]:
+# In[47]:
 
 
+#get_ipython().system('rm -r tmp')
 #df_path = "data/gina.csv"
 #target_ft = "class"
-#res = run_test(df_path, target_ft, mode=0 ,time_budget=30)
+#res = run_test(df_path, target_ft, mode=2 ,n_jobs=-1,time_budget=120)
 
 
-# In[ ]:
-
-
-
-
-
-# In[4]:
+# In[38]:
 
 
 #!rm -r tmp
@@ -171,7 +174,7 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30):
 #run_test(df, target_ft, mode=2, time_budget=60)
 
 
-# In[5]:
+# In[7]:
 
 
 #df = pd.read_csv("winequality-red.csv")
@@ -194,11 +197,11 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30):
 #run_test(df, target_ft, mode=2 ,time_budget=30)
 
 
-# In[8]:
+# In[50]:
 
 
 #!rm -r tmp
-#df = pd.read_csv("data/gina.csv")
+#df = "data/gina.csv"
 #target_ft = "class"
 #run_test(df, target_ft, mode=2 ,time_budget=30)
 
@@ -212,37 +215,27 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30):
 #run_test(df, target_ft, mode=4 ,time_budget=420)
 
 
-# In[ ]:
+# In[16]:
 
 
+#!ls data
 
 
-
-# In[ ]:
-
-
-df_path = "data/nomao.csv"
-target_ft = "Class"
-res = run_test(df_path, target_ft, mode=1 ,time_budget=3600)
+# In[49]:
 
 
-f_path = "data/nomao.csv"
-target_ft = "Class"
-res = run_test(df_path, target_ft, mode=2 ,time_budget=3600)
-
-df_path = "data/nomao.csv"
-target_ft = "Class"
-res = run_test(df_path, target_ft, mode=3 ,time_budget=3600)
-
-
-
-
-
-
+#!rm -r tmp
+#df_path = "data/20_newsgroups.csv"
+#target_ft = "class"
+#res = run_test(df_path, target_ft, mode=2 ,time_budget=3600, n_jobs=1)
 
 
 # In[ ]:
 
+#df_path = "data/rcv1.csv"
+df_path = "data/gina.csv"
+target_ft = "class"
+res = run_test(df_path, target_ft, mode=0 ,time_budget=3600, n_jobs=1)
 
 
 

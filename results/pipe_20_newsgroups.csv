@@ -1,0 +1,3 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape,PipeLine
+0,20_newsgroups,2.0m,AutoSK,AutoSK,0.48722222507141505,0.9501625243786568,"(399940, 1001)","[(1.000000, MyDummyClassifier(configuration=1, init_params=None, random_state=None)),
+]"
