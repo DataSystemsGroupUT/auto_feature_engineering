@@ -1,0 +1,4 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,dbworld-bodies,61.02m,AutoFeat,TPOT,0.9377450980392157,0.9375,"(64, 4)"
+1,dbworld-bodies,61.02m,None,TPOT,0.936740890688259,0.9375,"(64, 4702)"
+2,dbworld-bodies,61.02m,TPOT,TPOT,0.936740890688259,0.9375,"(64, 4702)"

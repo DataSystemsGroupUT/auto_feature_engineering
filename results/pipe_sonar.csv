@@ -1,5 +1,22 @@
 ,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape,PipeLine
-0,gina,1.93m,AutoFeat,TPOT,0.9391764205396911,0.9391634980988594,"(3153, 62)","import numpy as np
+0,sonar,60.03m,AutoFeat,TPOT,0.8636100246269738,0.8653846153846154,"(208, 8)","import numpy as np
+import pandas as pd
+from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.model_selection import train_test_split
+
+# NOTE: Make sure that the outcome column is labeled 'target' in the data file
+tpot_data = pd.read_csv('PATH/TO/DATA/FILE', sep='COLUMN_SEPARATOR', dtype=np.float64)
+features = tpot_data.drop('target', axis=1)
+training_features, testing_features, training_target, testing_target = \
+            train_test_split(features, tpot_data['target'], random_state=None)
+
+# Average CV score on the training set was: 0.8659274193548387
+exported_pipeline = ExtraTreesClassifier(bootstrap=False, criterion=""gini"", max_features=0.45, min_samples_leaf=2, min_samples_split=7, n_estimators=100)
+
+exported_pipeline.fit(training_features, training_target)
+results = exported_pipeline.predict(testing_features)
+"
+1,sonar,60.03m,None,TPOT,0.8267304124446982,0.8269230769230769,"(208, 60)","import numpy as np
 import pandas as pd
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import train_test_split
@@ -10,36 +27,21 @@ features = tpot_data.drop('target', axis=1)
 training_features, testing_features, training_target, testing_target = \
             train_test_split(features, tpot_data['target'], random_state=None)
 
-# Average CV score on the training set was: 0.9352877414268821
-exported_pipeline = GradientBoostingClassifier(learning_rate=1.0, max_depth=9, max_features=0.45, min_samples_leaf=19, min_samples_split=10, n_estimators=100, subsample=0.9000000000000001)
+# Average CV score on the training set was: 0.891733870967742
+exported_pipeline = GradientBoostingClassifier(learning_rate=0.5, max_depth=8, max_features=0.25, min_samples_leaf=5, min_samples_split=8, n_estimators=100, subsample=0.7500000000000001)
 
 exported_pipeline.fit(training_features, training_target)
 results = exported_pipeline.predict(testing_features)
 "
-1,gina,1.93m,None,TPOT,0.7630528118523645,0.7667934093789607,"(3153, 970)","import numpy as np
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import GaussianNB
-
-# NOTE: Make sure that the outcome column is labeled 'target' in the data file
-tpot_data = pd.read_csv('PATH/TO/DATA/FILE', sep='COLUMN_SEPARATOR', dtype=np.float64)
-features = tpot_data.drop('target', axis=1)
-training_features, testing_features, training_target, testing_target = \
-            train_test_split(features, tpot_data['target'], random_state=None)
-
-# Average CV score on the training set was: 0.7800417457985451
-exported_pipeline = GaussianNB()
-
-exported_pipeline.fit(training_features, training_target)
-results = exported_pipeline.predict(testing_features)
-"
-2,gina,1.93m,TPOT,TPOT,0.9366119037872479,0.9366286438529785,"(3153, 970)","import numpy as np
+2,sonar,60.03m,TPOT,TPOT,0.8835774420482068,0.8846153846153846,"(208, 60)","import numpy as np
 import pandas as pd
 from sklearn.ensemble import ExtraTreesClassifier
-from sklearn.feature_selection import RFE
 from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.neural_network import MLPClassifier
-from sklearn.pipeline import make_pipeline
+from sklearn.pipeline import make_pipeline, make_union
+from sklearn.preprocessing import StandardScaler
+from tpot.builtins import StackingEstimator
 
 # NOTE: Make sure that the outcome column is labeled 'target' in the data file
 tpot_data = pd.read_csv('PATH/TO/DATA/FILE', sep='COLUMN_SEPARATOR', dtype=np.float64)
@@ -47,10 +49,12 @@ features = tpot_data.drop('target', axis=1)
 training_features, testing_features, training_target, testing_target = \
             train_test_split(features, tpot_data['target'], random_state=None)
 
-# Average CV score on the training set was: 0.7792193714838571
+# Average CV score on the training set was: 0.8852822580645162
 exported_pipeline = make_pipeline(
-    RFE(estimator=ExtraTreesClassifier(criterion=""gini"", max_features=0.2, n_estimators=100), step=0.15000000000000002),
-    MLPClassifier(alpha=0.1, learning_rate_init=0.01)
+    StackingEstimator(estimator=ExtraTreesClassifier(bootstrap=True, criterion=""entropy"", max_features=0.8, min_samples_leaf=18, min_samples_split=7, n_estimators=100)),
+    StackingEstimator(estimator=MultinomialNB(alpha=1.0, fit_prior=False)),
+    StandardScaler(),
+    MLPClassifier(alpha=0.001, learning_rate_init=0.01)
 )
 
 exported_pipeline.fit(training_features, training_target)
