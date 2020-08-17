@@ -110,13 +110,13 @@ def gen_feats_featools(df):
                                      # trans_primitives = ['add_numeric', 'multiply_numeric'])
     return feature_matrix
 
-def gen_feats_autofeat(X,y):
-    fsel = autofeat.FeatureSelector(verbose=1)
+def gen_feats_autofeat(X,y,af_iters=5):
+    fsel = autofeat.FeatureSelector(verbose=1,featsel_runs=af_iters)
     X = fsel.fit_transform(X,y)
     return X
     
     
-def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1):
+def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
     now = datetime.now()
 
     current_time = now.strftime("%H:%M:%S")
@@ -179,7 +179,7 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1):
 
     if mode ==0 or mode == 2:
         start = time.monotonic()
-        X_new = gen_feats_autofeat(X,y)
+        X_new = gen_feats_autofeat(X,y,af_iters=af_iters)
         print("X old shape:", X.shape)
         print("X new shape:", X_new.shape)
         end = time.monotonic()
@@ -235,8 +235,8 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1):
     [print(x) for x in results]
     
     res_df =  pd.DataFrame(res_df, columns = ["Dataset","Time","Preprocessing","AutoML","Accuracy","F1","Shape","PipeLine"])
-    res_df.drop(columns=["PipeLine"]).to_csv("results/"+df_path[5:])
-    res_df.to_csv("results/pipe_"+df_path[5:])
+    res_df.drop(columns=["PipeLine"]).to_csv("results/"+str(af_iters)+"_"+df_path[5:])
+    res_df.to_csv("results/pipe_"+str(af_iters)+"_"+df_path[5:])
     
     return res_df
 
@@ -246,7 +246,7 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1):
 #df_path = "data/rcv1.csv" #crashes
 #df_path = "data/20_newsgroups.csv"
 #df_path = "data/gina.csv"
-target_ft = "Class"
+target_ft = "class"
 #df_path = "data/airlines.csv"
 #df_path = "data/dbworld-bodies.csv"
 #df_path = "data/sonar.csv"
@@ -267,9 +267,12 @@ target_ft = "Class"
 #target_ft = "Tissue"
 #res = run_test(df_path, target_ft, mode=0 ,n_jobs=1,time_budget=3600)
 
-df_path = "data/dbworld-bodies-stemmed.csv"
-target_ft = "Class"
-res = run_test(df_path, target_ft, mode=0 ,n_jobs=1,time_budget=3600)
+#df_path = "data/dbworld-bodies-stemmed.csv"
+#target_ft = "Class"
+
+df_path = "data/20_newsgroups.csv"
+for i in [5,10,20,30]:
+    res = run_test(df_path, target_ft, mode=0 ,n_jobs=1,time_budget=3600 , af_iters=i)
 
 
 # In[ ]:
