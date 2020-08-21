@@ -1,0 +1,7 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape,PipeLine
+0,GCM,69.58m,AutoFeat,AutoSK,0.007352941176470587,0.0625,"(190, 33)","[(1.000000, MyDummyClassifier(configuration=1, random_state=None)),
+]"
+1,GCM,69.58m,None,AutoSK,0.007352941176470587,0.0625,"(190, 16063)","[(1.000000, MyDummyClassifier(configuration=1, random_state=None)),
+]"
+2,GCM,69.58m,AutoSK,AutoSK,0.007352941176470587,0.0625,"(190, 16063)","[(1.000000, MyDummyClassifier(configuration=1, random_state=None)),
+]"

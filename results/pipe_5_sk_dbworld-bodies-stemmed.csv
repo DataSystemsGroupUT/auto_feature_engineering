@@ -1,0 +1,7 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape,PipeLine
+0,dbworld-bodies-stemmed,60.88m,AutoFeat,AutoSK,0.266304347826087,0.4375,"(64, 14)","[(1.000000, MyDummyClassifier(configuration=1, random_state=None)),
+]"
+1,dbworld-bodies-stemmed,60.88m,None,AutoSK,0.266304347826087,0.4375,"(64, 3721)","[(1.000000, MyDummyClassifier(configuration=1, random_state=None)),
+]"
+2,dbworld-bodies-stemmed,60.88m,AutoSK,AutoSK,0.266304347826087,0.4375,"(64, 3721)","[(1.000000, MyDummyClassifier(configuration=1, random_state=None)),
+]"

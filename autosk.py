@@ -185,14 +185,15 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
         end = time.monotonic()
         autofeat_time = int(end-start)
         start = time.monotonic()
-        rs = run_tpot(X_new,y,target_ft, time_budget=time_budget, include_preprocessors=None, n_jobs=n_jobs)   
+        rs = run_as(X_new,y,target_ft, time_budget=time_budget, include_preprocessors=["no_preprocessing"], n_jobs=n_jobs)   
+        #rs = run_tpot(X_new,y,target_ft, time_budget=time_budget, include_preprocessors=None, n_jobs=n_jobs)   
         end = time.monotonic()
         print("Actual Time Taken: ",str(end-start))
         results.append("TPOT with Autofeat: " + rs[0])
         rs[1][0] = df_path[5:-4]
         rs[1][1] = str(round((time_budget+autofeat_time)/60,2))+'m'
         rs[1][2] = "AutoFeat"
-        rs[1][3] = "TPOT"
+        rs[1][3] = "AutoSK"
         rs[1][6] = str(X_new.shape)
         res_df.append(rs[1])
 
@@ -200,14 +201,15 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
     
     if mode ==0 or mode == 5:
         start = time.monotonic()
-        rs = run_tpot(X,y,target_ft, time_budget=time_budget+autofeat_time, include_preprocessors=False, n_jobs=n_jobs)   
+        #rs = run_tpot(X,y,target_ft, time_budget=time_budget+autofeat_time, include_preprocessors=False, n_jobs=n_jobs)   
+        rs = run_as(X,y,target_ft, time_budget=time_budget+autofeat_time, include_preprocessors=["no_preprocessing"], n_jobs=n_jobs)   
         end = time.monotonic()
         print("Actual Time Taken: ",str(end-start))
         results.append("TPOT Only with No Preprocessing: " + rs[0])
         rs[1][0] = df_path[5:-4]
         rs[1][1] = str(round((time_budget+autofeat_time)/60,2))+'m'
         rs[1][2] = "None"
-        rs[1][3] = "TPOT"
+        rs[1][3] = "AutoSK"
         rs[1][6] = str(X.shape)
         res_df.append(rs[1])
         
@@ -215,14 +217,15 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
 
     if mode ==0 or mode == 1:
         start = time.monotonic()
-        rs = run_tpot(X,y,target_ft, time_budget=time_budget+autofeat_time, include_preprocessors=True, n_jobs=n_jobs)   
+        #rs = run_tpot(X,y,target_ft, time_budget=time_budget+autofeat_time, include_preprocessors=True, n_jobs=n_jobs)   
+        rs = run_as(X,y,target_ft, time_budget=time_budget+autofeat_time, include_preprocessors=None, n_jobs=n_jobs)   
         end = time.monotonic()
         print("Actual Time Taken: ",str(end-start))
         results.append("TPOT Only with Preprocessing: " + rs[0])
         rs[1][0] = df_path[5:-4]
         rs[1][1] = str(round((time_budget+autofeat_time)/60,2))+'m'
-        rs[1][2] = "TPOT"
-        rs[1][3] = "TPOT"
+        rs[1][2] = "AutoSK"
+        rs[1][3] = "AutoSK"
         rs[1][6] = str(X.shape)
         res_df.append(rs[1])
         
@@ -235,8 +238,8 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
     [print(x) for x in results]
     
     res_df =  pd.DataFrame(res_df, columns = ["Dataset","Time","Preprocessing","AutoML","Accuracy","F1","Shape","PipeLine"])
-    res_df.drop(columns=["PipeLine"]).to_csv("results/"+str(af_iters)+"_"+df_path[5:])
-    res_df.to_csv("results/pipe_"+str(af_iters)+"_"+df_path[5:])
+    res_df.drop(columns=["PipeLine"]).to_csv("results/"+str(af_iters)+"_sk_"+df_path[5:])
+    res_df.to_csv("results/pipe_"+str(af_iters)+"_sk_"+df_path[5:])
     
     return res_df
 
@@ -246,10 +249,10 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
 #df_path = "data/rcv1.csv" #crashes
 #df_path = "data/20_newsgroups.csv"
 #df_path = "data/gina.csv"
-target_ft = "class"
+target_ft = "Class"
 #df_path = "data/airlines.csv"
 #df_path = "data/dbworld-bodies.csv"
-#df_path = "data/sonar.csv"
+df_path = "data/sonar.csv"
 #df_path = "data/vehicle_sensIT.csv"
 
 #df_path = "data/micro-mass.csv"
@@ -269,10 +272,30 @@ target_ft = "class"
 
 #df_path = "data/dbworld-bodies-stemmed.csv"
 #target_ft = "Class"
+datas=[
+        #("data/dbworld-bodies.csv","Class"),
+        #("data/sonar.csv","Class"),
+        #("data/lymphoma_2classes.csv","class"),
+        #("data/rsctc2010_3.csv","Decision"),
+        ("data/vehicle_sensIT.csv",'Y'),
+        ("data/micro-mass.csv",'Class'),
+        ("data/GCM.csv",'class'),
+        ("data/AP_Omentum_Ovary.csv","tissue"),
+        ("data/dbworld-bodies-stemmed.csv","Class"),
+        ("data/rsctc2010_3.csv","Decision"),
 
-df_path = "data/20_newsgroups.csv"
-for i in [5,10,20,30]:
-    res = run_test(df_path, target_ft, mode=0 ,n_jobs=1,time_budget=3600 , af_iters=i)
+
+        
+        
+        ]
+
+
+
+for each in datas:
+    try:
+        res = run_test(each[0], each[1], mode=0 ,n_jobs=1,time_budget=3600 , af_iters=5)
+    except:
+        pass
 
 
 # In[ ]:

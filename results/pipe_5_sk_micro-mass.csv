@@ -1,0 +1,7 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape,PipeLine
+0,micro-mass,61.02m,AutoFeat,AutoSK,0.01098901098901099,0.07692307692307693,"(571, 39)","[(1.000000, MyDummyClassifier(configuration=1, random_state=None)),
+]"
+1,micro-mass,61.02m,None,AutoSK,0.01098901098901099,0.07692307692307693,"(571, 1300)","[(1.000000, MyDummyClassifier(configuration=1, random_state=None)),
+]"
+2,micro-mass,61.02m,AutoSK,AutoSK,0.01098901098901099,0.07692307692307693,"(571, 1300)","[(1.000000, MyDummyClassifier(configuration=1, random_state=None)),
+]"

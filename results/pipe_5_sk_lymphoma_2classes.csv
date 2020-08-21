@@ -1,0 +1,7 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape,PipeLine
+0,lymphoma_2classes,60.97m,AutoFeat,AutoSK,0.2450980392156863,0.4166666666666667,"(45, 5)","[(1.000000, MyDummyClassifier(configuration=1, random_state=None)),
+]"
+1,lymphoma_2classes,60.97m,None,AutoSK,0.2450980392156863,0.4166666666666667,"(45, 4026)","[(1.000000, MyDummyClassifier(configuration=1, random_state=None)),
+]"
+2,lymphoma_2classes,60.97m,AutoSK,AutoSK,0.2450980392156863,0.4166666666666667,"(45, 4026)","[(1.000000, MyDummyClassifier(configuration=1, random_state=None)),
+]"

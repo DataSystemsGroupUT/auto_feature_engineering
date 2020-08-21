@@ -1,0 +1,7 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape,PipeLine
+0,rsctc2010_3,78.4m,AutoFeat,AutoSK,0.07183908045977012,0.20833333333333334,"(95, 9)","[(1.000000, MyDummyClassifier(configuration=1, random_state=None)),
+]"
+1,rsctc2010_3,78.4m,None,AutoSK,0.07183908045977012,0.20833333333333334,"(95, 22277)","[(1.000000, MyDummyClassifier(configuration=1, random_state=None)),
+]"
+2,rsctc2010_3,78.4m,AutoSK,AutoSK,0.07183908045977012,0.20833333333333334,"(95, 22277)","[(1.000000, MyDummyClassifier(configuration=1, random_state=None)),
+]"

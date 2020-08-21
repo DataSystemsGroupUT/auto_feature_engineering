@@ -1,4 +1,0 @@
-,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
-0,lymphoma_2classes,60.93m,AutoFeat,TPOT,0.9172494172494172,0.9166666666666666,"(45, 9)"
-1,lymphoma_2classes,60.93m,None,TPOT,0.6666666666666666,0.6666666666666666,"(45, 4026)"
-2,lymphoma_2classes,60.93m,TPOT,TPOT,0.6666666666666666,0.6666666666666666,"(45, 4026)"
