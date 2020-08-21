@@ -10,17 +10,17 @@ import sklearn.metrics
 import pandas as pd
 import autosklearn.classification
 import os
-import featuretools as ft
+#import featuretools as ft
 import warnings
 import autofeat 
-from tpot import TPOTClassifier
+#from tpot import TPOTClassifier
 import json 
 import time
 from sklearn import preprocessing 
 from datetime import datetime
 
 
-warnings.filterwarnings('ignore')
+#warnings.filterwarnings('ignore')
 
 
 # In[2]:
@@ -50,14 +50,14 @@ def run_as(X, y, target_ft, time_budget=30, include_preprocessors = None, n_jobs
     X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, random_state=1)
     automl = autosklearn.classification.AutoSklearnClassifier(
         time_left_for_this_task=time_budget,
-        #per_run_time_limit=30,
+        per_run_time_limit=time_budget//2,
         tmp_folder='./tmp/autosklearn_regression_example_tmp',
         output_folder='./tmp/autosklearn_regression_example_out',
         include_preprocessors=include_preprocessors,
-        ml_memory_limit=None,
-        ensemble_memory_limit=None,
-        metric=autosklearn.metrics.f1_weighted,
-        n_jobs=n_jobs
+        ml_memory_limit=240000,
+        ensemble_memory_limit=240000,
+        #metric=autosklearn.metrics.f1_weighted,
+        #n_jobs=n_jobs
     )
     automl.fit(X_train, y_train)
     y_hat = automl.predict(X_test)
@@ -122,6 +122,7 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
     current_time = now.strftime("%H:%M:%S")
     print("Start Time =", current_time)
     print("Time budget =", time_budget//60)
+    print(df_path)
     results = []
     df = pd.read_csv(df_path)
     object_columns = df.select_dtypes(include='object')
@@ -218,6 +219,8 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
     if mode ==0 or mode == 1:
         start = time.monotonic()
         #rs = run_tpot(X,y,target_ft, time_budget=time_budget+autofeat_time, include_preprocessors=True, n_jobs=n_jobs)   
+        print(X.shape)
+        print(y.shape)
         rs = run_as(X,y,target_ft, time_budget=time_budget+autofeat_time, include_preprocessors=None, n_jobs=n_jobs)   
         end = time.monotonic()
         print("Actual Time Taken: ",str(end-start))
@@ -273,16 +276,19 @@ df_path = "data/sonar.csv"
 #df_path = "data/dbworld-bodies-stemmed.csv"
 #target_ft = "Class"
 datas=[
-        #("data/dbworld-bodies.csv","Class"),
-        #("data/sonar.csv","Class"),
-        #("data/lymphoma_2classes.csv","class"),
-        #("data/rsctc2010_3.csv","Decision"),
+        ("data/dbworld-bodies.csv","Class"),
+        ("data/sonar.csv","Class"),
+        ("data/lymphoma_2classes.csv","class"),
+        ("data/rsctc2010_3.csv","Decision"),
         ("data/vehicle_sensIT.csv",'Y'),
         ("data/micro-mass.csv",'Class'),
         ("data/GCM.csv",'class'),
-        ("data/AP_Omentum_Ovary.csv","tissue"),
+        ("data/AP_Omentum_Ovary.csv","Tissue"),
         ("data/dbworld-bodies-stemmed.csv","Class"),
         ("data/rsctc2010_3.csv","Decision"),
+        ("data/airlines.csv", "Delay")
+        #("data/gina.csv", "class")
+
 
 
         
