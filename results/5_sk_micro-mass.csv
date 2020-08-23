@@ -1,0 +1,4 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,micro-mass,61.18m,AutoFeat,AutoSK,0.731939723743508,0.7482517482517482,"(571, 48)"
+1,micro-mass,61.18m,None,AutoSK,0.8478514949103184,0.8531468531468531,"(571, 1300)"
+2,micro-mass,61.18m,AutoSK,AutoSK,0.8762843220392637,0.8811188811188811,"(571, 1300)"
