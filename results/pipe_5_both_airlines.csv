@@ -1,0 +1,73 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape,PipeLine
+0,airlines,10.97m,AutoFeat,AutoSK,0.3957255077101513,0.5546178603740564,"(539383, 7)","[(1.000000, MyDummyClassifier(configuration=1, init_params=None, random_state=None)),
+]"
+1,airlines,10.97m,None,AutoSK,0.3957255077101513,0.5546178603740564,"(539383, 7)","[(1.000000, MyDummyClassifier(configuration=1, init_params=None, random_state=None)),
+]"
+2,airlines,10.97m,AutoSK,AutoSK,0.6577470928457574,0.6593966450617742,"(539383, 7)","[(0.980000, SimpleClassificationPipeline({'balancing:strategy': 'weighting', 'classifier:__choice__': 'adaboost', 'data_preprocessing:categorical_transformer:categorical_encoding:__choice__': 'no_encoding', 'data_preprocessing:categorical_transformer:category_coalescence:__choice__': 'no_coalescense', 'data_preprocessing:numerical_transformer:imputation:strategy': 'most_frequent', 'data_preprocessing:numerical_transformer:rescaling:__choice__': 'quantile_transformer', 'feature_preprocessor:__choice__': 'feature_agglomeration', 'classifier:adaboost:algorithm': 'SAMME.R', 'classifier:adaboost:learning_rate': 0.22665749778830807, 'classifier:adaboost:max_depth': 7, 'classifier:adaboost:n_estimators': 78, 'data_preprocessing:numerical_transformer:rescaling:quantile_transformer:n_quantiles': 1000, 'data_preprocessing:numerical_transformer:rescaling:quantile_transformer:output_distribution': 'uniform', 'feature_preprocessor:feature_agglomeration:affinity': 'cosine', 'feature_preprocessor:feature_agglomeration:linkage': 'complete', 'feature_preprocessor:feature_agglomeration:n_clusters': 373, 'feature_preprocessor:feature_agglomeration:pooling_func': 'median'},
+dataset_properties={
+  'task': 1,
+  'sparse': False,
+  'multilabel': False,
+  'multiclass': False,
+  'target_type': 'classification',
+  'signed': False})),
+(0.020000, SimpleClassificationPipeline({'balancing:strategy': 'none', 'classifier:__choice__': 'adaboost', 'data_preprocessing:categorical_transformer:categorical_encoding:__choice__': 'no_encoding', 'data_preprocessing:categorical_transformer:category_coalescence:__choice__': 'minority_coalescer', 'data_preprocessing:numerical_transformer:imputation:strategy': 'median', 'data_preprocessing:numerical_transformer:rescaling:__choice__': 'minmax', 'feature_preprocessor:__choice__': 'liblinear_svc_preprocessor', 'classifier:adaboost:algorithm': 'SAMME', 'classifier:adaboost:learning_rate': 0.04534487012126666, 'classifier:adaboost:max_depth': 9, 'classifier:adaboost:n_estimators': 237, 'data_preprocessing:categorical_transformer:category_coalescence:minority_coalescer:minimum_fraction': 0.009377862051712454, 'feature_preprocessor:liblinear_svc_preprocessor:C': 4.281022361344507, 'feature_preprocessor:liblinear_svc_preprocessor:dual': 'False', 'feature_preprocessor:liblinear_svc_preprocessor:fit_intercept': 'True', 'feature_preprocessor:liblinear_svc_preprocessor:intercept_scaling': 1, 'feature_preprocessor:liblinear_svc_preprocessor:loss': 'squared_hinge', 'feature_preprocessor:liblinear_svc_preprocessor:multi_class': 'ovr', 'feature_preprocessor:liblinear_svc_preprocessor:penalty': 'l1', 'feature_preprocessor:liblinear_svc_preprocessor:tol': 0.02040524760798526},
+dataset_properties={
+  'task': 1,
+  'sparse': False,
+  'multilabel': False,
+  'multiclass': False,
+  'target_type': 'classification',
+  'signed': False})),
+]"
+3,airlines,10.97m,AutoFeat,TPOT,0.6597688111396427,0.6668792548536849,"(539383, 7)","import numpy as np
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+
+# NOTE: Make sure that the outcome column is labeled 'target' in the data file
+tpot_data = pd.read_csv('PATH/TO/DATA/FILE', sep='COLUMN_SEPARATOR', dtype=np.float64)
+features = tpot_data.drop('target', axis=1)
+training_features, testing_features, training_target, testing_target = \
+            train_test_split(features, tpot_data['target'], random_state=None)
+
+# Average CV score on the training set was: 0.66480692841552
+exported_pipeline = RandomForestClassifier(bootstrap=False, criterion=""entropy"", max_features=0.2, min_samples_leaf=15, min_samples_split=6, n_estimators=100)
+
+exported_pipeline.fit(training_features, training_target)
+results = exported_pipeline.predict(testing_features)
+"
+4,airlines,10.97m,None,TPOT,0.6608329331504216,0.6650994467763226,"(539383, 7)","import numpy as np
+import pandas as pd
+from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.model_selection import train_test_split
+
+# NOTE: Make sure that the outcome column is labeled 'target' in the data file
+tpot_data = pd.read_csv('PATH/TO/DATA/FILE', sep='COLUMN_SEPARATOR', dtype=np.float64)
+features = tpot_data.drop('target', axis=1)
+training_features, testing_features, training_target, testing_target = \
+            train_test_split(features, tpot_data['target'], random_state=None)
+
+# Average CV score on the training set was: 0.6632322861748039
+exported_pipeline = ExtraTreesClassifier(bootstrap=True, criterion=""gini"", max_features=0.9500000000000001, min_samples_leaf=4, min_samples_split=15, n_estimators=100)
+
+exported_pipeline.fit(training_features, training_target)
+results = exported_pipeline.predict(testing_features)
+"
+5,airlines,10.97m,TPOT,TPOT,0.6573618568825899,0.6657001320024324,"(539383, 7)","import numpy as np
+import pandas as pd
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.model_selection import train_test_split
+
+# NOTE: Make sure that the outcome column is labeled 'target' in the data file
+tpot_data = pd.read_csv('PATH/TO/DATA/FILE', sep='COLUMN_SEPARATOR', dtype=np.float64)
+features = tpot_data.drop('target', axis=1)
+training_features, testing_features, training_target, testing_target = \
+            train_test_split(features, tpot_data['target'], random_state=None)
+
+# Average CV score on the training set was: 0.6645424267397794
+exported_pipeline = GradientBoostingClassifier(learning_rate=0.1, max_depth=9, max_features=0.6000000000000001, min_samples_leaf=3, min_samples_split=6, n_estimators=100, subsample=0.4)
+
+exported_pipeline.fit(training_features, training_target)
+results = exported_pipeline.predict(testing_features)
+"

@@ -13,7 +13,7 @@ import os
 #import featuretools as ft
 import warnings
 import autofeat 
-#from tpot import TPOTClassifier
+from tpot import TPOTClassifier
 import json 
 import time
 from sklearn import preprocessing 
@@ -133,52 +133,7 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
     res_df = []
     autofeat_time = 0
     
-    #if mode == 0 or mode == 1:
-    #    start = time.monotonic()
-    #    X_new = gen_feats_autofeat(X,y)
-    #    end = time.monotonic()
-    #    autofeat_time = int(end-start)
-    #    print("Autofeat_time: ",autofeat_time)
-    #    rs = run_as(X_new,y,target_ft,time_budget=time_budget, include_preprocessors =["no_preprocessing"],n_jobs=n_jobs)
-    #    results.append("Autosk Only with Preprocessing: " + rs[0])
-    #    rs[1][0] = df_path[5:-4]
-    #    rs[1][1] = str(time_budget/60)+'m'
-    #    rs[1][2] = "Autofeat"
-    #    rs[1][3] = "AutoSK"
-    #    rs[1][6] = str(X_new.shape)
-    #    res_df.append(rs[1])
-    
-
-    #if mode == 0 or mode == 2:
-    #    rs = run_as(X,y,target_ft, time_budget=time_budget+autofeat_time, include_preprocessors=None,n_jobs=n_jobs)   
-    #    results.append("Autosk Only with Preprocessing: " + rs[0])
-    #    rs[1][0] = df_path[5:-4]
-    #    rs[1][1] = str(round((time_budget+autofeat_time)/60,2))+'m'
-    #    rs[1][2] = "AutoSK"
-    #    rs[1][3] = "AutoSK"
-    #    rs[1][6] = str(X.shape)
-    #    res_df.append(rs[1])
-    #if mode == 0 or mode == 3:
-    #    rs = run_as(X,y,target_ft,time_budget=time_budget, include_preprocessors =["no_preprocessing"],n_jobs=n_jobs)
-    #    results.append("Autosk Only without Preprocessing: " + rs[0])
-    #    rs[1][0] = df_path[5:-4]
-    #    rs[1][1] = str(round((time_budget+autofeat_time)/60,2))+'m'
-    #    rs[1][2] = "None"
-    #    rs[1][3] = "AutoSK"
-    #    rs[1][6] = str(X.shape)
-    #    res_df.append(rs[1])
-    
-    
-    
-    
-    #if mode == 0 or mode == 4:
-    #    X_new = gen_feats_featools(X)
-    #    rs = run_as(X_new,y,target_ft,time_budget=time_budget, include_preprocessors =["no_preprocessing"])
-    #    results.append("Autosk with Featuretools: " + rs)
-
-    
-
-    if mode ==0 or mode == 2:
+    if mode ==0 or mode == 1:
         start = time.monotonic()
         X_new = gen_feats_autofeat(X,y,af_iters=af_iters)
         print("X old shape:", X.shape)
@@ -190,7 +145,7 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
         #rs = run_tpot(X_new,y,target_ft, time_budget=time_budget, include_preprocessors=None, n_jobs=n_jobs)   
         end = time.monotonic()
         print("Actual Time Taken: ",str(end-start))
-        results.append("TPOT with Autofeat: " + rs[0])
+        results.append("AutoSK with Autofeat: " + rs[0])
         rs[1][0] = df_path[5:-4]
         rs[1][1] = str(round((time_budget+autofeat_time)/60,2))+'m'
         rs[1][2] = "AutoFeat"
@@ -199,14 +154,13 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
         res_df.append(rs[1])
 
     
-    
-    if mode ==0 or mode == 5:
+    if mode ==0 or mode == 2:
         start = time.monotonic()
         #rs = run_tpot(X,y,target_ft, time_budget=time_budget+autofeat_time, include_preprocessors=False, n_jobs=n_jobs)   
         rs = run_as(X,y,target_ft, time_budget=time_budget+autofeat_time, include_preprocessors=["no_preprocessing"], n_jobs=n_jobs)   
         end = time.monotonic()
         print("Actual Time Taken: ",str(end-start))
-        results.append("TPOT Only with No Preprocessing: " + rs[0])
+        results.append("AutoSK Only with No Preprocessing: " + rs[0])
         rs[1][0] = df_path[5:-4]
         rs[1][1] = str(round((time_budget+autofeat_time)/60,2))+'m'
         rs[1][2] = "None"
@@ -216,7 +170,7 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
         
         
 
-    if mode ==0 or mode == 1:
+    if mode ==0 or mode == 3:
         start = time.monotonic()
         #rs = run_tpot(X,y,target_ft, time_budget=time_budget+autofeat_time, include_preprocessors=True, n_jobs=n_jobs)   
         print(X.shape)
@@ -224,7 +178,7 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
         rs = run_as(X,y,target_ft, time_budget=time_budget+autofeat_time, include_preprocessors=None, n_jobs=n_jobs)   
         end = time.monotonic()
         print("Actual Time Taken: ",str(end-start))
-        results.append("TPOT Only with Preprocessing: " + rs[0])
+        results.append("AutoSK Only with Preprocessing: " + rs[0])
         rs[1][0] = df_path[5:-4]
         rs[1][1] = str(round((time_budget+autofeat_time)/60,2))+'m'
         rs[1][2] = "AutoSK"
@@ -232,7 +186,55 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
         rs[1][6] = str(X.shape)
         res_df.append(rs[1])
         
-          
+
+    if mode ==0 or mode == 4:
+        #start = time.monotonic()
+        #X_new = gen_feats_autofeat(X,y)
+        #end = time.monotonic()
+        #autofeat_time = int(end-start)
+        #start = time.monotonic()
+        rs = run_tpot(X_new,y,target_ft, time_budget=time_budget, include_preprocessors=None)   
+        #end = time.monotonic()
+        print("Actual Time Taken: ",str(end-start))
+        results.append("TPOT with Autofeat: " + rs[0])
+        rs[1][0] = df_path[5:-4]
+        rs[1][1] = str(round((time_budget+autofeat_time)/60,2))+'m'
+        rs[1][2] = "AutoFeat"
+        rs[1][3] = "TPOT"
+        rs[1][6] = str(X_new.shape)
+        res_df.append(rs[1])
+        
+    
+    
+    if mode ==0 or mode == 5:
+        start = time.monotonic()
+        rs = run_tpot(X,y,target_ft, time_budget=time_budget+autofeat_time, include_preprocessors=False)   
+        end = time.monotonic()
+        print("Actual Time Taken: ",str(end-start))
+        results.append("TPOT Only with No Preprocessing: " + rs[0])
+        rs[1][0] = df_path[5:-4]
+        rs[1][1] = str(round((time_budget+autofeat_time)/60,2))+'m'
+        rs[1][2] = "None"
+        rs[1][3] = "TPOT"
+        rs[1][6] = str(X.shape)
+        res_df.append(rs[1])
+        
+        
+
+    if mode ==0 or mode == 6:
+        start = time.monotonic()
+        rs = run_tpot(X,y,target_ft, time_budget=time_budget+autofeat_time, include_preprocessors=True)   
+        end = time.monotonic()
+        print("Actual Time Taken: ",str(end-start))
+        results.append("TPOT Only with Preprocessing: " + rs[0])
+        rs[1][0] = df_path[5:-4]
+        rs[1][1] = str(round((time_budget+autofeat_time)/60,2))+'m'
+        rs[1][2] = "TPOT"
+        rs[1][3] = "TPOT"
+        rs[1][6] = str(X.shape)
+        res_df.append(rs[1])
+
+
     
     
         
@@ -241,8 +243,8 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
     [print(x) for x in results]
     
     res_df =  pd.DataFrame(res_df, columns = ["Dataset","Time","Preprocessing","AutoML","Accuracy","F1","Shape","PipeLine"])
-    res_df.drop(columns=["PipeLine"]).to_csv("results/"+str(af_iters)+"_sk_"+df_path[5:])
-    res_df.to_csv("results/pipe_"+str(af_iters)+"_sk_"+df_path[5:])
+    res_df.drop(columns=["PipeLine"]).to_csv("results/"+str(af_iters)+"_both_"+df_path[5:])
+    res_df.to_csv("results/pipe_"+str(af_iters)+"_both_"+df_path[5:])
     
     return res_df
 
@@ -276,6 +278,11 @@ df_path = "data/sonar.csv"
 #df_path = "data/dbworld-bodies-stemmed.csv"
 #target_ft = "Class"
 datas=[
+        ("data/nomao.csv", "Class"),
+        ("data/eeg_eye_state.csv", "Class"),
+        ("data/Christine.csv", "class"),
+        ("data/ailerons.csv", "binaryClass"),
+        ("data/gina.csv", "class"),
         ("data/dbworld-bodies.csv","Class"),
         ("data/sonar.csv","Class"),
         ("data/lymphoma_2classes.csv","class"),
@@ -285,13 +292,7 @@ datas=[
         ("data/GCM.csv",'class'),
         ("data/AP_Omentum_Ovary.csv","Tissue"),
         ("data/dbworld-bodies-stemmed.csv","Class"),
-        ("data/rsctc2010_3.csv","Decision"),
         ("data/airlines.csv", "Delay")
-        #("data/gina.csv", "class")
-
-
-
-        
         
         ]
 
@@ -299,7 +300,7 @@ datas=[
 
 for each in datas:
     try:
-        res = run_test(each[0], each[1], mode=0 ,n_jobs=1,time_budget=3600 , af_iters=5)
+        res = run_test(each[0], each[1], mode=0 ,n_jobs=1,time_budget=600 , af_iters=5)
     except:
         pass
 
