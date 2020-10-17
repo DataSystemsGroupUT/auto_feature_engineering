@@ -1,0 +1,2 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,eating,460.75m,AutoFeat,AutoSK,0.573025422246576,0.5822784810126582,"(945, 6377)"

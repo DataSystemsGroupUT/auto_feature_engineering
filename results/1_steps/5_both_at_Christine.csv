@@ -1,0 +1,2 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,Christine,208.37m,AutoFeat,AutoSK,0.747568971446433,0.7476014760147601,"(5418, 1661)"

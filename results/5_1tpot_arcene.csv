@@ -1,0 +1,3 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,arcene,42.05m,AutoFeat,AutoSK,0.7806283149734802,0.78,"(200, 10002)"
+1,arcene,42.05m,AutoFeat,TPOT,0.6609710322317421,0.66,"(200, 10002)"

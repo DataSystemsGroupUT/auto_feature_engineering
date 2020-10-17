@@ -81,6 +81,7 @@ def run_tpot(X,y, target_ft,time_budget=30, include_preprocessors=None, n_jobs=1
     if include_preprocessors:
         pipeline_optimizer = TPOTClassifier(max_time_mins = time_budget//60, generations=None,
                                             use_dask=False,
+                                            #template="Selector-Transformer-Classifier",
                                             n_jobs=n_jobs,)
     else:
         pipeline_optimizer = TPOTClassifier(max_time_mins = time_budget//60, generations=None,
@@ -111,6 +112,7 @@ def gen_feats_featools(df):
     return feature_matrix
 
 def gen_feats_autofeat(X,y,af_iters=5):
+    #fsel = autofeat.AutoFeatClassifier(verbose=1,featsel_runs=af_iters,feateng_steps=1)
     fsel = autofeat.FeatureSelector(verbose=1,featsel_runs=af_iters)
     X = fsel.fit_transform(X,y)
     return X
@@ -133,7 +135,7 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
     res_df = []
     autofeat_time = 0
     
-    if mode ==0 or mode == 1:
+    if mode ==0 or mode == 1 or mode == -1:
         start = time.monotonic()
         X_new = gen_feats_autofeat(X,y,af_iters=af_iters)
         print("X old shape:", X.shape)
@@ -187,7 +189,7 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
         res_df.append(rs[1])
         
 
-    if mode ==0 or mode == 4:
+    if mode ==0 or mode == 4 or mode == -1:
         #start = time.monotonic()
         #X_new = gen_feats_autofeat(X,y)
         #end = time.monotonic()
@@ -243,8 +245,9 @@ def run_test(df_path,target_ft, mode = 0, time_budget=30,n_jobs=-1, af_iters=5):
     [print(x) for x in results]
     
     res_df =  pd.DataFrame(res_df, columns = ["Dataset","Time","Preprocessing","AutoML","Accuracy","F1","Shape","PipeLine"])
-    res_df.drop(columns=["PipeLine"]).to_csv("results/"+str(af_iters)+"_both_"+df_path[5:])
-    res_df.to_csv("results/pipe_"+str(af_iters)+"_both_"+df_path[5:])
+    #res_df.drop(columns=["PipeLine"]).to_csv("results/"+str(af_iters)+"_60mins_"+df_path[5:])
+    res_df.drop(columns=["PipeLine"]).to_csv("results/"+str(af_iters)+"_1re_"+df_path[5:])
+    res_df.to_csv("results/pipe_"+str(af_iters)+"_1re_"+df_path[5:])
     
     return res_df
 
@@ -278,31 +281,55 @@ df_path = "data/sonar.csv"
 #df_path = "data/dbworld-bodies-stemmed.csv"
 #target_ft = "Class"
 datas=[
-        ("data/nomao.csv", "Class"),
+        
+        
+        #("data/nomao.csv", "Class"),
         ("data/eeg_eye_state.csv", "Class"),
-        ("data/Christine.csv", "class"),
-        ("data/ailerons.csv", "binaryClass"),
-        ("data/gina.csv", "class"),
-        ("data/dbworld-bodies.csv","Class"),
-        ("data/sonar.csv","Class"),
-        ("data/lymphoma_2classes.csv","class"),
-        ("data/rsctc2010_3.csv","Decision"),
-        ("data/vehicle_sensIT.csv",'Y'),
-        ("data/micro-mass.csv",'Class'),
-        ("data/GCM.csv",'class'),
-        ("data/AP_Omentum_Ovary.csv","Tissue"),
-        ("data/dbworld-bodies-stemmed.csv","Class"),
-        ("data/airlines.csv", "Delay")
+        
+        #("data/Christine.csv", "class"),
+        
+        #("data/ailerons.csv", "binaryClass"),
+        #("data/gina.csv", "class"),
+        #("data/dbworld-bodies.csv","Class"),
+        #("data/sonar.csv","Class"),
+        #("data/lymphoma_2classes.csv","class"),
+        #("data/rsctc2010_3.csv","Decision"),
+        #("data/vehicle_sensIT.csv",'Y'),
+        #("data/micro-mass.csv",'Class'),
+        #("data/GCM.csv",'class'),
+        #("data/AP_Omentum_Ovary.csv","Tissue"),
+        #("data/dbworld-bodies-stemmed.csv","Class"),
+        ("data/airlines.csv", "Delay"),
+        
+        ##("data/leukemia.csv","CLASS"),
+        ##("data/AP_Endometrium_Prostate.csv","Tissue" ),
+        ##("data/AP_Prostate_Lung.csv", "Tissue"),
+        ##("data/ovarianTumour.csv", "Decision"),
+        #("data/arcene.csv", "Class"),
+        #("data/yeast_ml8.csv", "class14"),
+        #("data/madelon.csv", "Class"),
+        ("data/eating.csv", "class"),
+        #("data/hiva_agnostic.csv", "label"),
+        #("data/anthracyclineTaxaneChemotherapy.csv", "Decision"),
+        #("data/OVA_Breast.csv", "Tissue"),
+        
+        
+        
+        #("data/oh5.wc.csv", "CLASS_LABEL"),
+        #("data/new3s.wc.csv", "CLASS_LABEL"),
+        #("data/te23.wc.csv", "CLASS_LABEL"),
         
         ]
 
 
+#datas=datas[4:]
 
 for each in datas:
-    try:
-        res = run_test(each[0], each[1], mode=0 ,n_jobs=1,time_budget=600 , af_iters=5)
-    except:
-        pass
+    #try:
+    res = run_test(each[0], each[1], mode=-1 ,n_jobs=1,time_budget=600 , af_iters=5)
+    #    print(done)
+    #except:
+    #    pass
 
 
 # In[ ]:

@@ -1,0 +1,7 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,anthracyclineTaxaneChemotherapy,23.35m,AutoFeat,AutoSK,0.8460000000000001,0.85,"(159, 10)"
+1,anthracyclineTaxaneChemotherapy,23.35m,None,AutoSK,0.42682539682539683,0.425,"(159, 61359)"
+2,anthracyclineTaxaneChemotherapy,23.35m,AutoSK,AutoSK,0.4228021978021978,0.45,"(159, 61359)"
+3,anthracyclineTaxaneChemotherapy,23.35m,AutoFeat,TPOT,0.7979166666666666,0.8,"(159, 10)"
+4,anthracyclineTaxaneChemotherapy,23.35m,None,TPOT,0.45949094046591893,0.575,"(159, 61359)"
+5,anthracyclineTaxaneChemotherapy,23.35m,TPOT,TPOT,0.43533333333333335,0.45,"(159, 61359)"

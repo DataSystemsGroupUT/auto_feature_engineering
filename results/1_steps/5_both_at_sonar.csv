@@ -1,0 +1,2 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,sonar,10.38m,AutoFeat,AutoSK,0.7856728958423874,0.7884615384615384,"(208, 65)"

@@ -1,0 +1,2 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,lymphoma_2classes,16.5m,AutoFeat,AutoSK,0.5745920745920746,0.5833333333333334,"(45, 4038)"

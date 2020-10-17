@@ -1,0 +1,2 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,AP_Omentum_Ovary,85.8m,AutoFeat,AutoSK,0.8109105824446268,0.8260869565217391,"(275, 10944)"

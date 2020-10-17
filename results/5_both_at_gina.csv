@@ -1,0 +1,3 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,gina,41.08m,AutoFeat,AutoSK,0.9404510492293596,0.9404309252217997,"(3153, 970)"
+1,gina,41.08m,AutoFeat,TPOT,0.9353874158679115,0.935361216730038,"(3153, 970)"

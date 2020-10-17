@@ -1,0 +1,3 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,sonar,10.38m,AutoFeat,AutoSK,0.8246414602346805,0.8269230769230769,"(208, 69)"
+1,sonar,10.38m,AutoFeat,TPOT,0.8433566433566432,0.8461538461538461,"(208, 69)"

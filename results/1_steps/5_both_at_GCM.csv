@@ -1,0 +1,2 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,GCM,674.85m,AutoFeat,AutoSK,0.7156352419510315,0.7291666666666666,"(190, 16063)"

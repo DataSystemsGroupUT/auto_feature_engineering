@@ -1,0 +1,2 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,rsctc2010_3,169.43m,AutoFeat,AutoSK,0.8717948717948718,0.875,"(95, 22377)"

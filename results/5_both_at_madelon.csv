@@ -1,0 +1,3 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,madelon,19.92m,AutoFeat,AutoSK,0.7575811004408046,0.7584615384615384,"(2600, 500)"
+1,madelon,19.92m,AutoFeat,TPOT,0.8507406202371539,0.8507692307692307,"(2600, 500)"

@@ -1,0 +1,7 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,leukemia,14.75m,AutoFeat,AutoSK,1.0,1.0,"(72, 10)"
+1,leukemia,14.75m,None,AutoSK,0.9435154217762913,0.9444444444444444,"(72, 7129)"
+2,leukemia,14.75m,AutoSK,AutoSK,1.0,1.0,"(72, 7129)"
+3,leukemia,14.75m,AutoFeat,TPOT,1.0,1.0,"(72, 10)"
+4,leukemia,14.75m,None,TPOT,0.9435154217762913,0.9444444444444444,"(72, 7129)"
+5,leukemia,14.75m,TPOT,TPOT,1.0,1.0,"(72, 7129)"

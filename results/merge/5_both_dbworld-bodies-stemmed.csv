@@ -1,7 +1,0 @@
-,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
-0,dbworld-bodies-stemmed,10.83m,AutoFeat,AutoSK,0.936740890688259,0.9375,"(64, 2)"
-1,dbworld-bodies-stemmed,10.83m,None,AutoSK,0.8750000000000001,0.875,"(64, 3721)"
-2,dbworld-bodies-stemmed,10.83m,AutoSK,AutoSK,0.8132352941176471,0.8125,"(64, 3721)"
-3,dbworld-bodies-stemmed,10.83m,AutoFeat,TPOT,0.936740890688259,0.9375,"(64, 2)"
-4,dbworld-bodies-stemmed,10.83m,None,TPOT,0.936740890688259,0.9375,"(64, 3721)"
-5,dbworld-bodies-stemmed,10.83m,TPOT,TPOT,0.936740890688259,0.9375,"(64, 3721)"

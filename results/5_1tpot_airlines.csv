@@ -1,0 +1,3 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,airlines,46.2m,AutoFeat,AutoSK,0.3957255077101513,0.5546178603740564,"(539383, 7)"
+1,airlines,46.2m,AutoFeat,TPOT,0.6337711042242875,0.6458701036738205,"(539383, 7)"

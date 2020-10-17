@@ -1,0 +1,3 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,ailerons,30.15m,AutoFeat,AutoSK,0.8830116738808936,0.8830715532286213,"(13750, 45)"
+1,ailerons,30.15m,AutoFeat,TPOT,0.8792751242025302,0.8792902850494474,"(13750, 45)"

@@ -1,0 +1,2 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,OVA_Breast,468.22m,AutoFeat,AutoSK,0.9791623947336788,0.979328165374677,"(1545, 10972)"

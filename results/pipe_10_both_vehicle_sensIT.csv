@@ -1,0 +1,58 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape,PipeLine
+0,vehicle_sensIT,15.18m,AutoFeat,AutoSK,0.3291467170594593,0.496224423514128,"(98528, 53)","[(1.000000, MyDummyClassifier(configuration=1, init_params=None, random_state=None)),
+]"
+1,vehicle_sensIT,15.18m,None,AutoSK,0.3291467170594593,0.496224423514128,"(98528, 100)","[(1.000000, MyDummyClassifier(configuration=1, init_params=None, random_state=None)),
+]"
+2,vehicle_sensIT,15.18m,AutoSK,AutoSK,0.3291467170594593,0.496224423514128,"(98528, 100)","[(1.000000, MyDummyClassifier(configuration=1, init_params=None, random_state=None)),
+]"
+3,vehicle_sensIT,15.18m,AutoFeat,TPOT,0.8510666011194983,0.8513316011692108,"(98528, 53)","import numpy as np
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+
+# NOTE: Make sure that the outcome column is labeled 'target' in the data file
+tpot_data = pd.read_csv('PATH/TO/DATA/FILE', sep='COLUMN_SEPARATOR', dtype=np.float64)
+features = tpot_data.drop('target', axis=1)
+training_features, testing_features, training_target, testing_target = \
+            train_test_split(features, tpot_data['target'], random_state=None)
+
+# Average CV score on the training set was: 0.8545117972224239
+exported_pipeline = LogisticRegression(C=5.0, dual=False, penalty=""l2"")
+
+exported_pipeline.fit(training_features, training_target)
+results = exported_pipeline.predict(testing_features)
+"
+4,vehicle_sensIT,15.18m,None,TPOT,0.8626246639915206,0.863104904189672,"(98528, 100)","import numpy as np
+import pandas as pd
+from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.model_selection import train_test_split
+
+# NOTE: Make sure that the outcome column is labeled 'target' in the data file
+tpot_data = pd.read_csv('PATH/TO/DATA/FILE', sep='COLUMN_SEPARATOR', dtype=np.float64)
+features = tpot_data.drop('target', axis=1)
+training_features, testing_features, training_target, testing_target = \
+            train_test_split(features, tpot_data['target'], random_state=None)
+
+# Average CV score on the training set was: 0.8641875348675722
+exported_pipeline = ExtraTreesClassifier(bootstrap=True, criterion=""gini"", max_features=0.1, min_samples_leaf=10, min_samples_split=9, n_estimators=100)
+
+exported_pipeline.fit(training_features, training_target)
+results = exported_pipeline.predict(testing_features)
+"
+5,vehicle_sensIT,15.18m,TPOT,TPOT,0.8654376727743953,0.8659061383566092,"(98528, 100)","import numpy as np
+import pandas as pd
+from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.model_selection import train_test_split
+
+# NOTE: Make sure that the outcome column is labeled 'target' in the data file
+tpot_data = pd.read_csv('PATH/TO/DATA/FILE', sep='COLUMN_SEPARATOR', dtype=np.float64)
+features = tpot_data.drop('target', axis=1)
+training_features, testing_features, training_target, testing_target = \
+            train_test_split(features, tpot_data['target'], random_state=None)
+
+# Average CV score on the training set was: 0.867394757272255
+exported_pipeline = ExtraTreesClassifier(bootstrap=False, criterion=""entropy"", max_features=0.55, min_samples_leaf=20, min_samples_split=10, n_estimators=100)
+
+exported_pipeline.fit(training_features, training_target)
+results = exported_pipeline.predict(testing_features)
+"

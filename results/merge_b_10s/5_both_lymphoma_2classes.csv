@@ -1,0 +1,7 @@
+,Dataset,Time,Preprocessing,AutoML,Accuracy,F1,Shape
+0,lymphoma_2classes,11.0m,AutoFeat,AutoSK,1.0,1.0,"(45, 19)"
+1,lymphoma_2classes,11.0m,None,AutoSK,0.5745920745920746,0.5833333333333334,"(45, 4026)"
+2,lymphoma_2classes,11.0m,AutoSK,AutoSK,0.7517482517482517,0.75,"(45, 4026)"
+3,lymphoma_2classes,11.0m,AutoFeat,TPOT,1.0,1.0,"(45, 19)"
+4,lymphoma_2classes,11.0m,None,TPOT,0.6666666666666666,0.6666666666666666,"(45, 4026)"
+5,lymphoma_2classes,11.0m,TPOT,TPOT,0.6666666666666666,0.6666666666666666,"(45, 4026)"
