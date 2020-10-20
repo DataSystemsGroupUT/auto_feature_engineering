@@ -12,6 +12,9 @@ to be addressed in order to improve the predictive performance of the automated 
 Eventually, We analyze the complexity of AutoFeat and identify its limitations and rooms for improvements.
 
 ## Datasets Used
+![Dataset characteristics](figs/fig1.PNG)
+  
+  
 
 | Dataset      | Dimensions | Classes  | Numeric | Nominal |  Majority %|
 | :---        |    :----:   |       :----:   |     :----:   | :----:   |            ---: |
@@ -32,7 +35,6 @@ Eventually, We analyze the complexity of AutoFeat and identify its limitations a
 
 
 
-![Dataset characteristics](figs/fig1.PNG)
 
 ## Results
 ![Experiment Results](figs/fig2.PNG)
